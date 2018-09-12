@@ -1,5 +1,7 @@
 package org.researchstack.backbone.step;
 
+import org.researchstack.backbone.interfaces.IStep;
+import org.researchstack.backbone.interfaces.IStepLayoutProvider;
 import org.researchstack.backbone.task.Task;
 
 import java.io.Serializable;
@@ -20,7 +22,7 @@ import java.io.Serializable;
  * To implement a new type of step, subclass Step and add your additional properties. Separately,
  * subclass StepLayout and implement your user interface.
  */
-public class Step implements Serializable {
+public class Step implements Serializable, IStep, IStepLayoutProvider {
     private String identifier;
 
     private Class stepLayoutClass;

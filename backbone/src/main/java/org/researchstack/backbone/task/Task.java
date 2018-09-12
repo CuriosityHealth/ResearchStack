@@ -2,6 +2,7 @@ package org.researchstack.backbone.task;
 
 import android.content.Context;
 
+import org.researchstack.backbone.interfaces.ITask;
 import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.Step;
 import org.researchstack.backbone.ui.ViewTaskActivity;
@@ -25,7 +26,7 @@ import java.io.Serializable;
  * which corresponds to a single screen that displays multiple questions or items for which
  * participants provide information, such as first name, last name, and birth date.
  */
-public abstract class Task implements Serializable {
+public abstract class Task implements Serializable, ITask {
     private String identifier;
 
     /**
