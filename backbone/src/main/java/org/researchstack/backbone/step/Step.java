@@ -1,5 +1,7 @@
 package org.researchstack.backbone.step;
 
+import android.support.annotation.Nullable;
+
 import org.researchstack.backbone.interfaces.IStep;
 import org.researchstack.backbone.interfaces.IStepLayoutProvider;
 import org.researchstack.backbone.task.Task;
@@ -192,5 +194,10 @@ public class Step implements Serializable, IStep, IStepLayoutProvider {
      */
     public void setStepLayoutClass(Class stepLayoutClass) {
         this.stepLayoutClass = stepLayoutClass;
+    }
+
+    @Nullable
+    public IStepLayoutProvider getStepLayoutProvider() {
+        return this;
     }
 }
