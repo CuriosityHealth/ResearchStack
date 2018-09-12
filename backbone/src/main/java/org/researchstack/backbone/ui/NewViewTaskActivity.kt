@@ -56,7 +56,7 @@ class NewViewTaskActivity: PinCodeActivity(), StepCallbacks, ITaskPresenter {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         super.setResult(Activity.RESULT_CANCELED)
-        super.setContentView(R.layout.rsb_activity_step_switcher)
+        super.setContentView(R.layout.rsb_activity_task_viewer)
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar?
         setSupportActionBar(toolbar)
