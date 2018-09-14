@@ -39,7 +39,7 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
     }
 
     public var taskProvider: ITaskProvider? = null
-    public var stepLayoutProvider: INewStepLayoutProvider? = null
+    public var stepLayoutProvider: IStepLayoutProvider? = null
 
     var _root: StepSwitcher? = null
     val root: StepSwitcher

@@ -1,9 +1,13 @@
 package org.researchstack.backbone.interfaces
 
+import org.researchstack.backbone.step.Step
+
 interface IStepLayoutProvider {
-    val stepLayoutClass: Class<*>?
+    fun stepLayout(step: IStep): Class<*>?
 }
 
-interface INewStepLayoutProvider {
-    fun stepLayout(step: IStep): Class<*>?
+public class BackwardsCompatibleStepLayoutProvider(): IStepLayoutProvider {
+    override fun stepLayout(step: IStep): Class<*>? {
+        return (step as? Step)?.stepLayoutClass
+    }
 }

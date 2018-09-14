@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import org.researchstack.backbone.R
+import org.researchstack.backbone.interfaces.BackwardsCompatibleStepLayoutProvider
 import org.researchstack.backbone.interfaces.ITaskPresenter
 import org.researchstack.backbone.interfaces.ITaskPresenterDelegate
 import org.researchstack.backbone.result.StepResult
@@ -132,7 +133,8 @@ class NewViewTaskActivity: PinCodeActivity(), StepCallbacks, ITaskPresenter {
     private fun createLayoutFromStep(step: Step): StepLayout {
         try {
 
-            val stepLayout = step.stepLayoutProvider?.stepLayoutClass?.let {
+            val stepLayoutProvider = BackwardsCompatibleStepLayoutProvider()
+            val stepLayout = stepLayoutProvider.stepLayout(step)?.let {
                 val constructor = it.getConstructor(Context::class.java)
                 constructor.newInstance(this)
             } as? StepLayout

@@ -24,7 +24,7 @@ import java.io.Serializable;
  * To implement a new type of step, subclass Step and add your additional properties. Separately,
  * subclass StepLayout and implement your user interface.
  */
-public class Step implements Serializable, IStep, IStepLayoutProvider {
+public class Step implements Serializable, IStep {
     private String identifier;
 
     private Class stepLayoutClass;
@@ -194,10 +194,5 @@ public class Step implements Serializable, IStep, IStepLayoutProvider {
      */
     public void setStepLayoutClass(Class stepLayoutClass) {
         this.stepLayoutClass = stepLayoutClass;
-    }
-
-    @Nullable
-    public IStepLayoutProvider getStepLayoutProvider() {
-        return this;
     }
 }

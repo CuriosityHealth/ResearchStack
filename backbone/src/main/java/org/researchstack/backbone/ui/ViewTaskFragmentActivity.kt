@@ -12,7 +12,7 @@ import org.researchstack.backbone.step.Step
 import org.researchstack.backbone.task.Task
 import java.util.*
 
-class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, INewStepLayoutProvider, ITaskPresenterDelegate {
+class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPresenterDelegate {
 
     companion object {
 
@@ -49,8 +49,8 @@ class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, INewStepLayout
             supportFragmentManager.executePendingTransactions()
 
             val fragment: ViewTaskFragment = supportFragmentManager.findFragmentByTag(this.task.identifier) as ViewTaskFragment
-            fragment?.taskProvider = this
-            fragment?.stepLayoutProvider = this
+            fragment.taskProvider = this
+            fragment.stepLayoutProvider = BackwardsCompatibleStepLayoutProvider()
         }
 
     }
@@ -76,14 +76,6 @@ class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, INewStepLayout
         }
         else {
             return null
-        }
-
-    }
-
-    override fun stepLayout(step: IStep): Class<*>? {
-
-        return (step as? Step)?.let {
-            it.stepLayoutProvider?.stepLayoutClass
         }
 
     }
