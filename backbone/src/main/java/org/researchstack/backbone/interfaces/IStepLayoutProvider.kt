@@ -5,5 +5,5 @@ interface IStepLayoutProvider {
 }
 
 interface INewStepLayoutProvider {
-    fun layout(step: IStep): Class<*>?
+    fun stepLayout(step: IStep): Class<*>?
 }

@@ -3,6 +3,7 @@ package org.researchstack.backbone.task;
 import android.content.Context;
 
 import org.jetbrains.annotations.NotNull;
+import org.researchstack.backbone.interfaces.IStep;
 import org.researchstack.backbone.interfaces.ITask;
 import org.researchstack.backbone.interfaces.ITaskPresenter;
 import org.researchstack.backbone.interfaces.ITaskViewDelegate;
@@ -169,7 +170,7 @@ public abstract class Task implements Serializable, ITask, ITaskViewDelegate {
     }
 
     @Override
-    public void onViewChange(@NotNull ViewChangeType type, @NotNull ITaskPresenter presenter, Step currentStep) {
+    public void onViewChange(@NotNull ViewChangeType type, @NotNull ITaskPresenter presenter, IStep currentStep) {
 
     }
 

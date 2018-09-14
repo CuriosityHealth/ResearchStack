@@ -39,7 +39,7 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
     }
 
     public var taskProvider: ITaskProvider? = null
-    public var stepLayoutProvider: IStepLayoutProvider? = null
+    public var stepLayoutProvider: INewStepLayoutProvider? = null
 
     var _root: StepSwitcher? = null
     val root: StepSwitcher
@@ -70,8 +70,6 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
         val appCompatActivity: AppCompatActivity = this.activity as AppCompatActivity
         appCompatActivity.setSupportActionBar(toolbar)
         appCompatActivity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        this.taskProvider = this.activity as ITaskProvider
 
         this._root = view.findViewById(R.id.container) as StepSwitcher?
 
@@ -163,7 +161,7 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
     private fun createLayoutFromStep(step: Step): StepLayout {
         try {
 
-            val stepLayout = step.stepLayoutProvider?.stepLayoutClass?.let {
+            val stepLayout = this.stepLayoutProvider?.stepLayout(step)?.let {
                 val constructor = it.getConstructor(Context::class.java)
                 constructor.newInstance(this.activity)
             } as? StepLayout
@@ -226,16 +224,16 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
         alertDialog.show()
     }
 
+    protected fun onSaveStepResult(id: String, result: StepResult<*>) {
+        taskResult.setStepResultForStepIdentifier(id, result)
+    }
+
     override fun onSaveStep(action: Int, step: Step, result: StepResult<*>?) {
         result?.let { onSaveStepResult(step.identifier, it) }
         onExecuteStepAction(action)
     }
 
-    protected fun onSaveStepResult(id: String, result: StepResult<*>) {
-        taskResult.setStepResultForStepIdentifier(id, result)
-    }
-
     override fun onCancelStep() {
-        this.saveAndFinish(true)
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

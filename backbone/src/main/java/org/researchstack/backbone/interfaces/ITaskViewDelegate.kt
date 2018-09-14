@@ -5,7 +5,7 @@ import org.researchstack.backbone.task.Task
 
 interface ITaskViewDelegate {
 
-    fun onViewChange(type: Task.ViewChangeType, presenter: ITaskPresenter, currentStep: Step?) {
+    fun onViewChange(type: Task.ViewChangeType, presenter: ITaskPresenter, currentStep: IStep?) {
 
     }
 

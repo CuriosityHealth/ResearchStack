@@ -6,17 +6,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import org.researchstack.backbone.R
-import org.researchstack.backbone.interfaces.IResult
-import org.researchstack.backbone.interfaces.ITask
-import org.researchstack.backbone.interfaces.ITaskPresenterDelegate
-import org.researchstack.backbone.interfaces.ITaskProvider
+import org.researchstack.backbone.interfaces.*
 import org.researchstack.backbone.result.TaskResult
 import org.researchstack.backbone.step.Step
 import org.researchstack.backbone.task.Task
 import java.util.*
 
-class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPresenterDelegate {
-
+class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, INewStepLayoutProvider, ITaskPresenterDelegate {
 
     companion object {
 
@@ -46,10 +42,17 @@ class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPresenter
         }
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
+            val transaction = supportFragmentManager.beginTransaction()
                     .replace(R.id.container, ViewTaskFragment.newInstance(this.task.identifier), this.task.identifier)
                     .commit()
+
+            supportFragmentManager.executePendingTransactions()
+
+            val fragment: ViewTaskFragment = supportFragmentManager.findFragmentByTag(this.task.identifier) as ViewTaskFragment
+            fragment?.taskProvider = this
+            fragment?.stepLayoutProvider = this
         }
+
     }
 
     override fun onDataReady() {
@@ -73,6 +76,14 @@ class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPresenter
         }
         else {
             return null
+        }
+
+    }
+
+    override fun stepLayout(step: IStep): Class<*>? {
+
+        return (step as? Step)?.let {
+            it.stepLayoutProvider?.stepLayoutClass
         }
 
     }
