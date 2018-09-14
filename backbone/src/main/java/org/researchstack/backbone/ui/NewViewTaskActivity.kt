@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import org.researchstack.backbone.R
 import org.researchstack.backbone.interfaces.ITaskPresenter
+import org.researchstack.backbone.interfaces.ITaskPresenterDelegate
 import org.researchstack.backbone.result.StepResult
 import org.researchstack.backbone.result.TaskResult
 import org.researchstack.backbone.step.Step
@@ -201,12 +202,21 @@ class NewViewTaskActivity: PinCodeActivity(), StepCallbacks, ITaskPresenter {
 
     override fun onDataReady() {
         super.onDataReady()
+        this.startPresenting()
+    }
 
+
+
+    override fun startPresenting() {
         if (this.currentStep == null) {
             this._currentStep = task.getStepAfterStep(null, taskResult)
         }
 
         showStep(this.currentStep!!)
+    }
+
+    override fun setDelegate(delegate: ITaskPresenterDelegate) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onDataFailed() {

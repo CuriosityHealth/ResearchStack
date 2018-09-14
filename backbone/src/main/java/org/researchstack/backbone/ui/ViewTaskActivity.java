@@ -12,8 +12,10 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
 import org.researchstack.backbone.R;
 import org.researchstack.backbone.interfaces.ITaskPresenter;
+import org.researchstack.backbone.interfaces.ITaskPresenterDelegate;
 import org.researchstack.backbone.result.StepResult;
 import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.Step;
@@ -265,5 +267,15 @@ public class ViewTaskActivity extends PinCodeActivity implements StepCallbacks, 
         if (actionBar != null) {
             actionBar.setTitle(title);
         }
+    }
+
+    @Override
+    public void startPresenting() {
+
+    }
+
+    @Override
+    public void setDelegate(@NotNull ITaskPresenterDelegate delegate) {
+
     }
 }
