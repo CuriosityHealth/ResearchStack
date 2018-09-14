@@ -45,9 +45,9 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
     val root: StepSwitcher
         get() = this._root!!
 
-    var _currentStep: Step? = null
+    var _currentStep: IStep? = null
 
-    val currentStep: Step?
+    val currentStep: IStep?
         get() = this._currentStep
 
 
@@ -82,7 +82,7 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
             val taskIdentifier = savedInstanceState.getString(ViewTaskFragment.EXTRA_TASK_IDENTIFIER)
             this._task = this.taskProvider!!.task(taskIdentifier) as Task
             this._taskResult = savedInstanceState.getSerializable(NewViewTaskActivity.EXTRA_TASK_RESULT) as TaskResult
-            this._currentStep = savedInstanceState.getSerializable(NewViewTaskActivity.EXTRA_STEP) as Step
+            this._currentStep = savedInstanceState.getSerializable(NewViewTaskActivity.EXTRA_STEP) as IStep
         }
 
         this.task.validateParameters()
@@ -105,12 +105,12 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
         this.taskPresentaterDelegate?.didStartPresenting(this.task)
     }
 
-    override fun setDelegate(delegate: ITaskPresenterDelegate) {
+    override fun setTaskPresenterDelegate(delegate: ITaskPresenterDelegate) {
         this.taskPresentaterDelegate = delegate
     }
 
     protected fun showNextStep() {
-        val nextStep = task.getStepAfterStep(currentStep, taskResult)
+        val nextStep = task.getStepAfterStep(currentStep as Step, taskResult)
         if (nextStep == null) {
             this.saveAndFinish(false)
         } else {
@@ -119,7 +119,7 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
     }
 
     protected fun showPreviousStep() {
-        val previousStep = task.getStepBeforeStep(currentStep, taskResult)
+        val previousStep = task.getStepBeforeStep(currentStep as Step, taskResult)
         if (previousStep == null) {
             saveAndFinish(true)
         } else {
@@ -127,10 +127,10 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
         }
     }
 
-    private fun showStep(step: Step) {
-        val currentStepPosition = task.getProgressOfCurrentStep(currentStep, taskResult)
+    private fun showStep(step: IStep) {
+        val currentStepPosition = task.getProgressOfCurrentStep(currentStep as Step, taskResult)
                 .current
-        val newStepPosition = task.getProgressOfCurrentStep(step, taskResult).current
+        val newStepPosition = task.getProgressOfCurrentStep(step as Step, taskResult).current
 
         val stepLayout = getLayoutForStep(step)
         stepLayout.layout.setTag(R.id.rsb_step_layout_id, step.identifier)
@@ -142,9 +142,9 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
         this._currentStep = step
     }
 
-    protected fun getLayoutForStep(step: Step): StepLayout {
+    protected fun getLayoutForStep(step: IStep): StepLayout {
         // Change the title on the activity
-        val title = task.getTitleForStep(this.activity, step)
+        val title = task.getTitleForStep(this.activity, step as Step)
         setActionBarTitle(title)
 
         // Get result from the TaskResult, can be null
@@ -158,7 +158,7 @@ class ViewTaskFragment(): Fragment(), StepCallbacks, ITaskPresenter {
         return stepLayout
     }
 
-    private fun createLayoutFromStep(step: Step): StepLayout {
+    private fun createLayoutFromStep(step: IStep): StepLayout {
         try {
 
             val stepLayout = this.stepLayoutProvider?.stepLayout(step)?.let {

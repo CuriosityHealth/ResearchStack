@@ -275,7 +275,7 @@ public class ViewTaskActivity extends PinCodeActivity implements StepCallbacks, 
     }
 
     @Override
-    public void setDelegate(@NotNull ITaskPresenterDelegate delegate) {
+    public void setTaskPresenterDelegate(@NotNull ITaskPresenterDelegate delegate) {
 
     }
 }

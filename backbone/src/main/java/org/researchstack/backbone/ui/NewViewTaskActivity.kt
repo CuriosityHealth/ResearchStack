@@ -217,7 +217,7 @@ class NewViewTaskActivity: PinCodeActivity(), StepCallbacks, ITaskPresenter {
         showStep(this.currentStep!!)
     }
 
-    override fun setDelegate(delegate: ITaskPresenterDelegate) {
+    override fun setTaskPresenterDelegate(delegate: ITaskPresenterDelegate) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

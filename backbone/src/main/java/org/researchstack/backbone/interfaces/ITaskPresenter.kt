@@ -2,7 +2,7 @@ package org.researchstack.backbone.interfaces
 
 public interface ITaskPresenter {
     fun startPresenting()
-    fun setDelegate(delegate: ITaskPresenterDelegate)
+    fun setTaskPresenterDelegate(delegate: ITaskPresenterDelegate)
 }
 
 public interface ITaskPresenterDelegate {

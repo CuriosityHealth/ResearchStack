@@ -51,6 +51,7 @@ class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPresenter
             val fragment: ViewTaskFragment = supportFragmentManager.findFragmentByTag(this.task.identifier) as ViewTaskFragment
             fragment.taskProvider = this
             fragment.stepLayoutProvider = BackwardsCompatibleStepLayoutProvider()
+            fragment.setTaskPresenterDelegate(this)
         }
 
     }
@@ -59,7 +60,6 @@ class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPresenter
         super.onDataReady()
 
         val fragment: ViewTaskFragment = supportFragmentManager.findFragmentByTag(this.task.identifier) as ViewTaskFragment
-        fragment.setDelegate(this)
         fragment.startPresenting()
     }
 
