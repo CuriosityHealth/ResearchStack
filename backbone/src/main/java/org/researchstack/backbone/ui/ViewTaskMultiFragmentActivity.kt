@@ -1,3 +1,4 @@
+
 package org.researchstack.backbone.ui
 
 import android.app.Activity
@@ -11,18 +12,17 @@ import org.researchstack.backbone.interfaces.*
 import org.researchstack.backbone.result.TaskResult
 import org.researchstack.backbone.step.Step
 import org.researchstack.backbone.task.Task
-import org.researchstack.backbone.ui.step.layout.StepLayout
 import java.util.*
 
-class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPresenterDelegate {
+class ViewTaskMultiFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPresenterDelegate {
 
     companion object {
 
-        val EXTRA_TASK = "ViewTaskFragmentActivity.ExtraTask"
-        val EXTRA_TASK_RESULT = "ViewTaskFragmentActivity.ExtraTaskResult"
+        val EXTRA_TASK = "ViewTaskMultiFragmentActivity.ExtraTask"
+        val EXTRA_TASK_RESULT = "ViewTaskMultiFragmentActivity.ExtraTaskResult"
 
         fun newIntent(context: Context, task: Task): Intent {
-            val intent = Intent(context, ViewTaskFragmentActivity::class.java);
+            val intent = Intent(context, ViewTaskMultiFragmentActivity::class.java);
             intent.putExtra(EXTRA_TASK, task);
             return intent;
         }
@@ -32,30 +32,30 @@ class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPresenter
     val task: Task
         get() = this._task!!
 
-//    var currentStepLayout: StepLayout? = null
+    var viewTaskFragment: ViewTaskMultiFragment? = null
 
-    var viewTaskFragment: ViewTaskFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         super.setResult(Activity.RESULT_CANCELED)
-        this.setContentView(R.layout.rsb_activity_fragment_task_viewer)
+        this.setContentView(R.layout.rsb_activity_multi_fragment_task_viewer)
 
         if (savedInstanceState == null) {
-            this._task = getIntent().getSerializableExtra(ViewTaskFragmentActivity.EXTRA_TASK) as Task
+            this._task = getIntent().getSerializableExtra(ViewTaskMultiFragmentActivity.EXTRA_TASK) as Task
         } else {
-            this._task = savedInstanceState.getSerializable(ViewTaskFragmentActivity.EXTRA_TASK) as Task
+            this._task = savedInstanceState.getSerializable(ViewTaskMultiFragmentActivity.EXTRA_TASK) as Task
         }
 
         if (savedInstanceState == null) {
             val transaction = supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, ViewTaskFragment.newInstance(this.task.identifier), this.task.identifier)
+                    .replace(R.id.container, ViewTaskMultiFragment.newInstance(this.task.identifier), this.task.identifier)
                     .commit()
 
             supportFragmentManager.executePendingTransactions()
 
-            val fragment: ViewTaskFragment = supportFragmentManager.findFragmentByTag(this.task.identifier) as ViewTaskFragment
+            val fragment: ViewTaskMultiFragment = supportFragmentManager.findFragmentByTag(this.task.identifier) as ViewTaskMultiFragment
             fragment.taskProvider = this
-            fragment.stepLayoutProvider = BackwardsCompatibleStepLayoutProvider()
+            val stepLayoutProvider = BackwardsCompatibleStepLayoutProvider()
+            fragment.stepFragmentProvider = BackwardsCompatibleStepFragmentProvider(stepLayoutProvider)
             fragment.setTaskPresenterDelegate(this)
             this.viewTaskFragment = fragment
         }
@@ -65,7 +65,7 @@ class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPresenter
     override fun onDataReady() {
         super.onDataReady()
 
-        val fragment: ViewTaskFragment = supportFragmentManager.findFragmentByTag(this.task.identifier) as ViewTaskFragment
+        val fragment: ViewTaskMultiFragment = supportFragmentManager.findFragmentByTag(this.task.identifier) as ViewTaskMultiFragment
         fragment.startPresenting()
     }
 
@@ -105,7 +105,7 @@ class ViewTaskFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPresenter
 
         if (taskResult != null) {
             val resultIntent = Intent()
-            resultIntent.putExtra(ViewTaskFragmentActivity.EXTRA_TASK_RESULT, taskResult)
+            resultIntent.putExtra(ViewTaskMultiFragmentActivity.EXTRA_TASK_RESULT, taskResult)
             setResult(Activity.RESULT_OK, resultIntent)
         }
 
