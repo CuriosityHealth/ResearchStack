@@ -34,6 +34,11 @@ class ViewTaskMultiFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPres
 
     var viewTaskFragment: ViewTaskMultiFragment? = null
 
+    fun stepFragmentProvider(task: ITask): IStepFragmentProvider {
+        val stepLayoutProvider = BackwardsCompatibleStepLayoutProvider()
+        return BackwardsCompatibleStepFragmentProvider(stepLayoutProvider)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         super.setResult(Activity.RESULT_CANCELED)
@@ -54,8 +59,7 @@ class ViewTaskMultiFragmentActivity: PinCodeActivity(), ITaskProvider, ITaskPres
 
             val fragment: ViewTaskMultiFragment = supportFragmentManager.findFragmentByTag(this.task.identifier) as ViewTaskMultiFragment
             fragment.taskProvider = this
-            val stepLayoutProvider = BackwardsCompatibleStepLayoutProvider()
-            fragment.stepFragmentProvider = BackwardsCompatibleStepFragmentProvider(stepLayoutProvider)
+            fragment.stepFragmentProvider = this.stepFragmentProvider(this.task)
             fragment.setTaskPresenterDelegate(this)
             this.viewTaskFragment = fragment
         }

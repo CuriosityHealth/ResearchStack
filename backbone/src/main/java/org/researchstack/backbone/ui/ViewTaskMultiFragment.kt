@@ -35,12 +35,7 @@ class ViewTaskMultiFragment(): Fragment(), StepCallbacks, ITaskPresenter {
     }
 
     public var taskProvider: ITaskProvider? = null
-//    public var stepLayoutProvider: IStepLayoutProvider? = null
     public var stepFragmentProvider: IStepFragmentProvider? = null
-
-//    var _root: StepSwitcher? = null
-//    val root: StepSwitcher
-//        get() = this._root!!
 
     var _currentStep: IStep? = null
     var _currentFragment: StepFragment? = null
@@ -69,8 +64,6 @@ class ViewTaskMultiFragment(): Fragment(), StepCallbacks, ITaskPresenter {
         appCompatActivity.setSupportActionBar(toolbar)
         appCompatActivity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-//        this._root = view.findViewById(R.id.container) as StepSwitcher?
-
         if (savedInstanceState == null) {
             val taskIdentifier = arguments.getString(ViewTaskMultiFragment.EXTRA_TASK_IDENTIFIER)
             this._task = this.taskProvider!!.task(taskIdentifier) as Task
@@ -79,8 +72,8 @@ class ViewTaskMultiFragment(): Fragment(), StepCallbacks, ITaskPresenter {
         } else {
             val taskIdentifier = savedInstanceState.getString(ViewTaskMultiFragment.EXTRA_TASK_IDENTIFIER)
             this._task = this.taskProvider!!.task(taskIdentifier) as Task
-            this._taskResult = savedInstanceState.getSerializable(NewViewTaskActivity.EXTRA_TASK_RESULT) as TaskResult
-            this._currentStep = savedInstanceState.getSerializable(NewViewTaskActivity.EXTRA_STEP) as IStep
+            this._taskResult = savedInstanceState.getSerializable(ViewTaskMultiFragment.EXTRA_TASK_RESULT) as TaskResult
+            this._currentStep = savedInstanceState.getSerializable(ViewTaskMultiFragment.EXTRA_STEP) as IStep
         }
 
         this.task.validateParameters()
@@ -129,14 +122,6 @@ class ViewTaskMultiFragment(): Fragment(), StepCallbacks, ITaskPresenter {
         val currentStepPosition = task.getProgressOfCurrentStep(currentStep as Step, taskResult)
                 .current
         val newStepPosition = task.getProgressOfCurrentStep(step as Step, taskResult).current
-
-//        val stepLayout = getLayoutForStep(step)
-//        stepLayout.layout.setTag(R.id.rsb_step_layout_id, step.identifier)
-//        root.show(stepLayout,
-//                if (newStepPosition >= currentStepPosition)
-//                    StepSwitcher.SHIFT_LEFT
-//                else
-//                    StepSwitcher.SHIFT_RIGHT)
 
         val stepFragment = this.getFragmentForStep(step)
         this._currentFragment = stepFragment
@@ -266,7 +251,7 @@ class ViewTaskMultiFragment(): Fragment(), StepCallbacks, ITaskPresenter {
         alertDialog.show()
     }
 
-    fun onBackPressed() {
+    public fun onBackPressed() {
         notifyStepOfBackPress()
     }
 

@@ -28,7 +28,7 @@ public class BackwardsCompatibleStepFragmentProvider(val stepLayoutProvider: ISt
             } as? StepLayout
 
             if (stepLayout != null) {
-                val fragment = BackwardsCompatibleStepFragment.newInstance(step.identifier, stepLayout)
+                val fragment = BackwardsCompatibleStepFragment.newInstance(stepLayout)
                 return fragment
             }
             else {
@@ -46,13 +46,9 @@ public class BackwardsCompatibleStepFragmentProvider(val stepLayoutProvider: ISt
 public class BackwardsCompatibleStepFragment(): Fragment(), StepFragment {
 
     companion object {
-        val EXTRA_TASK_IDENTIFIER = "BackwardsCompatibleStepFragment.ExtraTaskIdentifier"
 
-        fun newInstance(taskIdentifier: String, stepLayout: StepLayout): BackwardsCompatibleStepFragment {
+        fun newInstance(stepLayout: StepLayout): BackwardsCompatibleStepFragment {
             val fragment = BackwardsCompatibleStepFragment()
-            val args = Bundle()
-            args.putString(EXTRA_TASK_IDENTIFIER, taskIdentifier)
-            fragment.setArguments(args)
             fragment.stepLayout = stepLayout
             return fragment
         }
@@ -81,10 +77,7 @@ public class BackwardsCompatibleStepFragment(): Fragment(), StepFragment {
         val containerView: FrameLayout = view.findViewById(R.id.rsb_content_child) as FrameLayout
 
         val lp = getLayoutParams(layout)
-
-//        I think that this is probably the problem here...
         containerView.addView(layout.layout, 0, lp)
-//        layout.getLayout().id = R.id.rsb_current_step
 
         return view
     }
