@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import org.researchstack.backbone.R
+import org.researchstack.backbone.interfaces.IResult
 import org.researchstack.backbone.interfaces.IStep
 import org.researchstack.backbone.interfaces.IStepFragmentProvider
 import org.researchstack.backbone.interfaces.IStepLayoutProvider
@@ -86,8 +87,8 @@ public class BackwardsCompatibleStepFragment(): Fragment(), StepFragment {
         this.stepLayout!!.isBackEventConsumed
     }
 
-    override fun initialize(step: IStep, result: StepResult<*>?) {
-        this.stepLayout!!.initialize(step as Step, result)
+    override fun initialize(step: IStep, result: IResult?) {
+        this.stepLayout!!.initialize(step as Step, result?.let { it as? StepResult<*> })
     }
 
     override fun setCallbacks(callbacks: StepCallbacks) {
