@@ -2,6 +2,11 @@ package org.researchstack.backbone.task;
 
 import android.content.Context;
 
+import org.jetbrains.annotations.NotNull;
+import org.researchstack.backbone.interfaces.IStep;
+import org.researchstack.backbone.interfaces.ITask;
+import org.researchstack.backbone.interfaces.ITaskPresenter;
+import org.researchstack.backbone.interfaces.ITaskViewDelegate;
 import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.Step;
 import org.researchstack.backbone.ui.ViewTaskActivity;
@@ -25,7 +30,7 @@ import java.io.Serializable;
  * which corresponds to a single screen that displays multiple questions or items for which
  * participants provide information, such as first name, last name, and birth date.
  */
-public abstract class Task implements Serializable {
+public abstract class Task implements Serializable, ITask, ITaskViewDelegate {
     private String identifier;
 
     /**
@@ -161,6 +166,11 @@ public abstract class Task implements Serializable {
      * @param currentStep the current step being shown
      */
     public void onViewChange(ViewChangeType type, ViewTaskActivity activity, Step currentStep) {
+
+    }
+
+    @Override
+    public void onViewChange(@NotNull ViewChangeType type, @NotNull ITaskPresenter presenter, IStep currentStep) {
 
     }
 

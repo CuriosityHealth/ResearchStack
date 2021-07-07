@@ -12,7 +12,10 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
 import org.researchstack.backbone.R;
+import org.researchstack.backbone.interfaces.ITaskPresenter;
+import org.researchstack.backbone.interfaces.ITaskPresenterDelegate;
 import org.researchstack.backbone.result.StepResult;
 import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.Step;
@@ -24,7 +27,7 @@ import org.researchstack.backbone.ui.views.StepSwitcher;
 import java.lang.reflect.Constructor;
 import java.util.Date;
 
-public class ViewTaskActivity extends PinCodeActivity implements StepCallbacks {
+public class ViewTaskActivity extends PinCodeActivity implements StepCallbacks, ITaskPresenter {
     public static final String EXTRA_TASK = "ViewTaskActivity.ExtraTask";
     public static final String EXTRA_TASK_RESULT = "ViewTaskActivity.ExtraTaskResult";
     public static final String EXTRA_STEP = "ViewTaskActivity.ExtraStep";
@@ -264,5 +267,15 @@ public class ViewTaskActivity extends PinCodeActivity implements StepCallbacks {
         if (actionBar != null) {
             actionBar.setTitle(title);
         }
+    }
+
+    @Override
+    public void startPresenting() {
+
+    }
+
+    @Override
+    public void setTaskPresenterDelegate(@NotNull ITaskPresenterDelegate delegate) {
+
     }
 }
